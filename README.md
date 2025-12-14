@@ -9,7 +9,7 @@
 > **Educational Demo**
 >
 > Learn how to implement SHA-256 hashing, generate SSL certificates, and run HTTPS on localhost.
-> For local development only. Production-ready `hardened` branch coming soon — see [Roadmap](doc/requirements/roadmap.md).
+> For local development only. Production-ready `hardened` branch coming soon. See [Roadmap](doc/requirements/roadmap.md).
 
 ---
 
