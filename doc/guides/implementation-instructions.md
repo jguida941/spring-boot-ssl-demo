@@ -127,9 +127,9 @@ ls -la keystore.p12
 
 You should see the file with a size of about 2-3 KB.
 
-### 1.5 Export the Certificate as a CER File (For Screenshots)
+### 1.5 Export the Certificate as a CER File
 
-To export a readable certificate file for your assignment screenshots:
+To export a readable certificate file:
 
 ```bash
 keytool -exportcert -alias selfsigned -keystore keystore.p12 -file certificate.cer -storetype PKCS12
@@ -197,11 +197,20 @@ Open `src/main/resources/application.properties` in your editor.
 Add these lines to the file:
 
 ```properties
+# HTTPS/SSL Configuration for Artemis Financial
+# Self-signed certificate for local development
+
 server.port=8443
 server.ssl.key-alias=selfsigned
-server.ssl.key-store-password=YOUR_PASSWORD_HERE
 server.ssl.key-store=classpath:keystore.p12
 server.ssl.key-store-type=PKCS12
+
+# NOTE: Password is hardcoded here for local development only.
+# In production, use environment variables instead:
+#   server.ssl.key-store-password=${KEYSTORE_PASSWORD}
+# Or pass at runtime:
+#   --server.ssl.key-store-password=yourpassword
+server.ssl.key-store-password=YOUR_PASSWORD_HERE
 ```
 
 **What each property means:**
@@ -218,10 +227,7 @@ server.ssl.key-store-type=PKCS12
 
 Change `YOUR_PASSWORD_HERE` to the actual password you created in Step 1.
 
-> **Security Note:** For local development, hard-coding the password is acceptable. In production, you would use:
-> - **Environment variables:** `server.ssl.key-store-password=${KEYSTORE_PASSWORD}`
-> - **Runtime arguments:** `--server.ssl.key-store-password=yourpassword`
-> - **Secrets managers:** AWS Secrets Manager, HashiCorp Vault, etc.
+> **Security Note:** The comments in the properties file remind you that hard-coding passwords is only acceptable for local development. In production, you would use environment variables or runtime arguments as shown in the comments.
 
 ---
 
@@ -278,7 +284,7 @@ class ServerController {
                 + "<p>CheckSum Value: " + hashString + "</p>";
     }
 
-    // Helper method to convert byte array to hex string
+    // Helper method to convert byte array to hex string for older Java versions
     private static String bytesToHex(byte[] bytes) {
         StringBuilder sb = new StringBuilder(bytes.length * 2);
         for (byte b : bytes) {
@@ -497,9 +503,10 @@ ssl-server_student/
 │   └── ServerApplication.java          <-- UPDATED (contains controller)
 ├── src/main/resources/
 │   ├── application.properties          <-- UPDATED (HTTPS config)
-│   └── keystore.p12                     <-- NEW (copied here)
-├── keystore.p12                         <-- Generated in project root
-├── certificate.cer                      <-- Exported for screenshot
+│   ├── keystore.p12                     <-- NEW (SSL certificate)
+│   ├── static/                          <-- Static web resources
+│   └── templates/                       <-- View templates
+├── certificate.cer                      <-- OPTIONAL (exported certificate)
 └── doc/
     ├── guides/
     │   ├── implementation-instructions.md
@@ -509,6 +516,8 @@ ssl-server_student/
     └── adr/
         └── (architecture decision records)
 ```
+
+> **Note:** If you generated `keystore.p12` directly in `src/main/resources/`, you can skip the copy step. The `certificate.cer` file is optional and only needed if your assignment requires a screenshot of the exported certificate.
 
 ---
 
