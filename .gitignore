@@ -1,0 +1,56 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**
+!**/src/test/**
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+
+### VS Code ###
+.vscode/
+
+### Security - Do NOT commit keystores or certificates ###
+*.p12
+*.jks
+*.cer
+*.pem
+*.key
+keystore.*
+truststore.*
+
+### Environment files ###
+.env
+.env.local
+.env.*.local
+*.env
+
+### OS generated files ###
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+
+### Logs ###
+*.log
+logs/
