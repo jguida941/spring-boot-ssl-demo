@@ -98,8 +98,10 @@ The Tomcat connector configured to listen on port 8443 failed to start.
 ```bash
 keytool -genkeypair -alias selfsigned -keyalg RSA -keysize 2048 \
   -storetype PKCS12 -keystore src/main/resources/keystore.p12 \
-  -validity 365 -storepass "Artemis2024!Secure"
+  -validity 365 -storepass "YOUR_PASSWORD_HERE"
 ```
+
+Replace `YOUR_PASSWORD_HERE` with the password configured in `application.properties`.
 
 ### Java version issues
 

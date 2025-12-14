@@ -190,7 +190,7 @@ Java security standard algorithm names. (n.d.). https://docs.oracle.com/javase/9
 
 ### Notes
 
-*Your notes here...*
+The self-signed certificate was generated using Java Keytool with RSA 2048-bit key algorithm. The certificate is stored in PKCS12 format, which is the industry standard and default format for Java 9+. The certificate is valid for 365 days and uses the alias "selfsigned" for identification within the keystore.
 
 ---
 
@@ -301,16 +301,30 @@ These vulnerabilities exist because the project uses Spring Boot 2.2.4.RELEASE (
 
 ### Areas of Security Addressed
 
-*Your response here...*
+The following areas were addressed in this project:
+
+- **Cryptography:** Added SHA-256 hashing using Java's `MessageDigest` class to generate checksums for data verification.
+- **Secure Communications:** Configured HTTPS by enabling SSL in Spring Boot's `application.properties` with a self-signed certificate.
+- **Dependency Scanning:** Ran OWASP Dependency-Check to identify known vulnerabilities in project dependencies.
 
 ### Process for Adding Security Layers
 
-*Your response here...*
+1. **Generated a self-signed certificate** using Java Keytool and stored it in PKCS12 format.
+2. **Configured HTTPS** in `application.properties` by setting the port to 8443 and pointing to the keystore.
+3. **Added a `/hash` endpoint** in `ServerApplication.java` that computes and displays a SHA-256 checksum.
+4. **Ran OWASP Dependency-Check** to scan for CVEs in third-party libraries.
 
 ### Industry Standard Best Practices Applied
 
-*Your response here...*
+- **SHA-256:** Used for hashing as recommended by NIST.
+- **PKCS12 Keystore:** Industry-standard format for storing certificates.
+- **HTTPS:** Encrypts data between client and server.
+- **Dependency Scanning:** Identifies known vulnerabilities in libraries.
 
 ### Value to Company Well-Being
 
-*Your response here...*
+For Artemis Financial, these practices provide:
+
+- **Data Protection:** HTTPS encrypts client financial data in transit.
+- **Integrity Verification:** SHA-256 checksums can detect if data has been modified.
+- **Vulnerability Awareness:** Dependency scanning identifies security risks in third-party code before deployment.

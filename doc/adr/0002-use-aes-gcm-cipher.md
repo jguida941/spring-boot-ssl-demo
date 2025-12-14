@@ -1,12 +1,6 @@
 # ADR-0002: Use AES/GCM/NoPadding for Encryption
 
-## Status
-
-Accepted
-
-## Date
-
-2025-12-13
+**Status:** Accepted | **Date:** 2025-12-13 | Developer: Justin Guida
 
 ## Context
 
@@ -32,15 +26,15 @@ Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
 
 ## Alternatives Considered
 
-| Cipher | Mode | Status | Reason Not Chosen |
-|--------|------|--------|-------------------|
-| DES | Any | Deprecated | 56-bit key is insecure |
-| 3DES/DESede | Any | Legacy | Slow, being phased out |
-| AES | CBC | Secure | No built-in authentication |
-| AES | CTR | Secure | No built-in authentication |
-| AES | CCM | Secure | Less performant than GCM |
-| Blowfish | Any | Legacy | Non-standard key sizes |
-| RC4 | Stream | Broken | Multiple vulnerabilities |
+| Cipher      | Mode   | Status     | Reason Not Chosen          |
+|-------------|--------|------------|----------------------------|
+| DES         | Any    | Deprecated | 56-bit key is insecure     |
+| 3DES/DESede | Any    | Legacy     | Slow, being phased out     |
+| AES         | CBC    | Secure     | No built-in authentication |
+| AES         | CTR    | Secure     | No built-in authentication |
+| AES         | CCM    | Secure     | Less performant than GCM   |
+| Blowfish    | Any    | Legacy     | Non-standard key sizes     |
+| RC4         | Stream | Broken     | Multiple vulnerabilities   |
 
 ## Consequences
 
@@ -77,3 +71,7 @@ Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
 - FIPS 197: AES is the approved symmetric cipher
 - PCI DSS: Meets strong cryptography requirements
 - NIST required TLS 1.3 support by January 2024
+
+## Related Files
+
+- [`doc/reports/secure-software-report.md`](../reports/secure-software-report.md) - Cipher recommendation details

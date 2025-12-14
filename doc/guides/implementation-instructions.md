@@ -499,25 +499,45 @@ Your project should look like this:
 
 ```
 ssl-server_student/
-├── src/main/java/com/snhu/sslserver/
-│   └── ServerApplication.java          <-- UPDATED (contains controller)
-├── src/main/resources/
-│   ├── application.properties          <-- UPDATED (HTTPS config)
-│   ├── keystore.p12                     <-- NEW (SSL certificate)
-│   ├── static/                          <-- Static web resources
-│   └── templates/                       <-- View templates
-├── certificate.cer                      <-- OPTIONAL (exported certificate)
-└── doc/
-    ├── guides/
-    │   ├── implementation-instructions.md
-    │   └── requirements.md
-    ├── reports/
-    │   └── secure-software-report.md
-    └── adr/
-        └── (architecture decision records)
+├── .github/
+│   └── workflows/
+│       └── security-scan.yml           <-- CI/CD pipeline
+├── src/
+│   ├── main/
+│   │   ├── java/com/snhu/sslserver/
+│   │   │   └── ServerApplication.java  <-- UPDATED (contains controller)
+│   │   └── resources/
+│   │       ├── application.properties  <-- UPDATED (HTTPS config)
+│   │       ├── keystore.p12            <-- GENERATED (SSL certificate)
+│   │       ├── static/
+│   │       └── templates/
+│   └── test/
+│       └── java/com/snhu/sslserver/
+│           └── SslServerApplicationTests.java
+├── doc/
+│   ├── adr/
+│   │   ├── README.md                   <-- ADR index
+│   │   ├── 0001-use-sha256-for-checksum.md
+│   │   ├── 0002-use-aes-gcm-cipher.md
+│   │   ├── 0003-use-pkcs12-keystore.md
+│   │   ├── 0004-use-tls-https.md
+│   │   ├── 0005-known-limitations-not-production-ready.md
+│   │   └── 0006-use-github-actions-cicd.md
+│   ├── guides/
+│   │   ├── implementation-instructions.md
+│   │   └── quickstart.md
+│   ├── images/                         <-- Screenshots
+│   ├── reports/
+│   │   └── secure-software-report.md
+│   └── requirements/
+│       ├── requirements.md
+│       └── roadmap.md
+├── certificate.cer                     <-- OPTIONAL (exported certificate)
+├── pom.xml
+└── README.md
 ```
 
-> **Note:** If you generated `keystore.p12` directly in `src/main/resources/`, you can skip the copy step. The `certificate.cer` file is optional and only needed if your assignment requires a screenshot of the exported certificate.
+> **Note:** The `keystore.p12` file is generated during setup (see Step 1). The `certificate.cer` file is optional and only needed if you want to view or share the certificate details.
 
 ---
 
@@ -569,16 +589,6 @@ taskkill /PID <PID> /F
 1. Check the console output for error messages
 2. Verify all imports are correct in `ServerApplication.java`
 3. Make sure Maven dependencies are downloaded: `./mvnw clean install`
-
----
-
-## Screenshots Needed for Your Report
-
-For the assignment report, capture these screenshots:
-
-1. **Certificate CER file** - Shows the exported certificate details
-2. **Checksum verification page** - Browser showing `https://localhost:8443/hash` with your name and checksum
-3. **Secure connection indicator** - Browser showing HTTPS padlock (even with the self-signed warning)
 
 ---
 

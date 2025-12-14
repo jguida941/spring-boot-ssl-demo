@@ -1,12 +1,6 @@
 # ADR-0004: Use TLS 1.3/1.2 for HTTPS Communications
 
-## Status
-
-Accepted
-
-## Date
-
-2025-12-13
+**Status:** Accepted | **Date:** 2025-12-13 | Developer: Justin Guida
 
 ## Context
 
@@ -40,13 +34,13 @@ Recommended cipher suites (TLS 1.2):
 
 ## Alternatives Considered
 
-| Protocol | Status | Reason Not Chosen |
-|----------|--------|-------------------|
-| HTTP | Insecure | No encryption, data sent in plaintext |
-| SSL 2.0 | Broken | Multiple critical vulnerabilities |
-| SSL 3.0 | Broken | POODLE attack (CVE-2014-3566) |
-| TLS 1.0 | Deprecated | BEAST attack, PCI DSS non-compliant since 2018 |
-| TLS 1.1 | Deprecated | Weak cipher suites, deprecated by major browsers |
+| Protocol | Status     | Reason Not Chosen                                |
+|----------|------------|--------------------------------------------------|
+| HTTP     | Insecure   | No encryption, data sent in plaintext            |
+| SSL 2.0  | Broken     | Multiple critical vulnerabilities                |
+| SSL 3.0  | Broken     | POODLE attack (CVE-2014-3566)                    |
+| TLS 1.0  | Deprecated | BEAST attack, PCI DSS non-compliant since 2018   |
+| TLS 1.1  | Deprecated | Weak cipher suites, deprecated by major browsers |
 
 ## Consequences
 
@@ -72,13 +66,13 @@ Recommended cipher suites (TLS 1.2):
 
 ## TLS 1.3 vs TLS 1.2
 
-| Feature | TLS 1.2 | TLS 1.3 |
-|---------|---------|---------|
-| Handshake Round Trips | 2 | 1 |
-| 0-RTT Resumption | No | Yes |
-| Weak Cipher Support | Some | Removed |
-| Forward Secrecy | Optional | Required |
-| NIST Deadline | Current | Required by Jan 2024 |
+| Feature               | TLS 1.2  | TLS 1.3              |
+|-----------------------|----------|----------------------|
+| Handshake Round Trips | 2        | 1                    |
+| 0-RTT Resumption      | No       | Yes                  |
+| Weak Cipher Support   | Some     | Removed              |
+| Forward Secrecy       | Optional | Required             |
+| NIST Deadline         | Current  | Required by Jan 2024 |
 
 ## Production Recommendations
 
@@ -93,3 +87,8 @@ Recommended cipher suites (TLS 1.2):
 - NIST SP 800-52 Rev 2: TLS 1.3 recommended, TLS 1.2 acceptable
 - NIST: Organizations required to add TLS 1.3 support by January 2024
 - HIPAA: Requires encryption for PHI in transit
+
+## Related Files
+
+- [`src/main/resources/application.properties`](../../src/main/resources/application.properties) - HTTPS/SSL configuration
+- [`src/main/resources/keystore.p12`](../../src/main/resources/keystore.p12) - SSL certificate

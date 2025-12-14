@@ -1,12 +1,6 @@
 # ADR-0001: Use SHA-256 for Checksum Verification
 
-## Status
-
-Accepted
-
-## Date
-
-2025-12-13
+**Status:** Accepted | **Date:** 2025-12-13 | Developer: Justin Guida
 
 ## Context
 
@@ -61,3 +55,7 @@ byte[] hashBytes = digest.digest(data.getBytes(StandardCharsets.UTF_8));
 - NIST SP 800-131A: SHA-256 is approved for all uses
 - PCI DSS: Meets strong cryptography requirements
 - FIPS 180-4: SHA-256 is a FIPS-approved hash function
+
+## Related Files
+
+- [`src/main/java/com/snhu/sslserver/ServerApplication.java`](../../src/main/java/com/snhu/sslserver/ServerApplication.java) - Hash implementation

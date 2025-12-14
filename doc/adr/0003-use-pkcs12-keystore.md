@@ -1,12 +1,6 @@
 # ADR-0003: Use PKCS12 Keystore Format
 
-## Status
-
-Accepted
-
-## Date
-
-2025-12-13
+**Status:** Accepted | **Date:** 2025-12-13 | Developer: Justin Guida
 
 ## Context
 
@@ -41,12 +35,12 @@ server.ssl.key-store-type=PKCS12
 
 ## Alternatives Considered
 
-| Format | Status | Reason Not Chosen |
-|--------|--------|-------------------|
+| Format              | Status | Reason Not Chosen                                                |
+|---------------------|--------|------------------------------------------------------------------|
 | JKS (Java KeyStore) | Legacy | Proprietary, weaker encryption, deprecated as default in Java 9+ |
-| JCEKS | Legacy | Proprietary Java format |
-| BKS (Bouncy Castle) | Secure | Requires external dependency |
-| PEM files | Secure | Not natively supported by Java KeyStore API |
+| JCEKS               | Legacy | Proprietary Java format                                          |
+| BKS (Bouncy Castle) | Secure | Requires external dependency                                     |
+| PEM files           | Secure | Not natively supported by Java KeyStore API                      |
 
 ## Consequences
 
@@ -84,3 +78,8 @@ server.ssl.key-store-type=PKCS12
 - RFC 7292: PKCS #12 Personal Information Exchange Syntax
 - Java 9+ default keystore format
 - Compatible with FIPS 140-2 validated cryptographic modules
+
+## Related Files
+
+- [`src/main/resources/keystore.p12`](../../src/main/resources/keystore.p12) - PKCS12 keystore (generated)
+- [`src/main/resources/application.properties`](../../src/main/resources/application.properties) - SSL configuration
