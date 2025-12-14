@@ -48,7 +48,8 @@ See [Quick Start Guide](doc/guides/quickstart.md) for prerequisites and troubles
 |:------------------------------------------------------------------|:------------------------------------|
 | [Quick Start](doc/guides/quickstart.md)                           | Setup and run instructions          |
 | [Implementation Guide](doc/guides/implementation-instructions.md) | Step-by-step implementation details |
-| [Security Report](doc/reports/secure-software-report.md)          | Security analysis and findings      |
+| [Security Report](doc/reports/secure-software-report.md)          | Assignment security report          |
+| [Security Review](doc/reports/security-review.md)                 | Full codebase security audit        |
 | [Roadmap](doc/requirements/roadmap.md)                            | Planned improvements                |
 | [Requirements](doc/requirements/requirements.md)                  | Original assignment specifications  |
 
@@ -90,7 +91,7 @@ Workflow: [`.github/workflows/security-scan.yml`](.github/workflows/security-sca
 
 ## Security Audit
 
-A security audit identified **15 issues** documented for educational purposes. See [ADR-0005](doc/adr/0005-known-limitations-not-production-ready.md) for the full breakdown and remediation plan.
+A security audit identified **15 issues** documented for educational purposes. See [Security Review](doc/reports/security-review.md) for the full report and [ADR-0005](doc/adr/0005-known-limitations-not-production-ready.md) for the remediation plan.
 
 | Severity | Count |
 |:---------|:------|

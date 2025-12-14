@@ -291,9 +291,14 @@ These vulnerabilities exist because the project uses Spring Boot 2.2.4.RELEASE (
 
 ### Findings
 
-*Your findings here...*
+- **Hardcoded secret** in `src/main/resources/application.properties:14` plus committed `src/main/resources/keystore.p12` expose the TLS private key and password, allowing server impersonation if the repo is leaked. Move the keystore out of source control and load the password from an environment variable or secret manager.
+- **Outdated platform**: Spring Boot `2.2.4.RELEASE` (Tomcat 9.0.30, Jackson 2.10.2, Logback 1.2.3, SnakeYAML 1.25) includes multiple published CVEs (e.g., Spring4Shell CVE-2022-22965, Ghostcat CVE-2020-1938, CVE-2021-42550, CVE-2022-1471). Upgrade to a supported Spring Boot 3.x baseline to pull in patched transitive dependencies.
+- **Build does not fail on CVEs**: OWASP Dependency-Check is configured with `failBuildOnCVSS=11` in `pom.xml`, so even critical vulnerabilities will not block a build. Lower the threshold (e.g., 7.0) or fail on any critical finding to prevent shipping known-vulnerable artifacts.
 
-- [ ] Screenshot of refactored code executed without errors included
+### Execution Evidence
+
+- `./mvnw test` executed successfully (context load) with exit code 0. Screenshot captured from the run:  
+  ![Functional Test](../images/functional-test.png)
 
 ---
 
