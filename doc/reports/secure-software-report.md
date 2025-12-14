@@ -258,16 +258,16 @@ Run command: `./mvnw dependency-check:check`
 
 ### Vulnerabilities Found
 
-The scan identified vulnerabilities in the following dependencies:
+The scan identified vulnerabilities in the following dependencies. Each CVE has been verified against the [NVD database](https://nvd.nist.gov/).
 
-| Dependency                | Critical CVEs                                 |
-|---------------------------|-----------------------------------------------|
-| tomcat-embed-core-9.0.30  | CVE-2020-1938, CVE-2024-50379, CVE-2025-24813 |
-| spring-core-5.2.3.RELEASE | CVE-2022-22965 (Spring4Shell)                 |
-| jackson-databind-2.10.2   | CVE-2020-25649, CVE-2020-36518                |
-| log4j-api-2.12.1          | CVE-2020-9488                                 |
-| snakeyaml-1.25            | CVE-2022-1471                                 |
-| logback-core-1.2.3        | CVE-2021-42550                                |
+| Dependency                | Critical CVEs                                 | CVSS  |
+|---------------------------|-----------------------------------------------|-------|
+| tomcat-embed-core-9.0.30  | [CVE-2020-1938](https://nvd.nist.gov/vuln/detail/cve-2020-1938) (Ghostcat), [CVE-2025-24813](https://nvd.nist.gov/vuln/detail/cve-2025-24813) | 9.8 |
+| spring-core-5.2.3.RELEASE | [CVE-2022-22965](https://nvd.nist.gov/vuln/detail/cve-2022-22965) (Spring4Shell) | 9.8 |
+| jackson-databind-2.10.2   | [CVE-2020-25649](https://nvd.nist.gov/vuln/detail/CVE-2020-25649), [CVE-2020-36518](https://nvd.nist.gov/vuln/detail/CVE-2020-36518) | 7.5 |
+| log4j-api-2.12.1          | [CVE-2020-9488](https://nvd.nist.gov/vuln/detail/CVE-2020-9488) | 3.7 |
+| snakeyaml-1.25            | [CVE-2022-1471](https://nvd.nist.gov/vuln/detail/cve-2022-1471) | 8.3 |
+| logback-core-1.2.3        | [CVE-2021-42550](https://nvd.nist.gov/vuln/detail/CVE-2021-42550) | 6.6 |
 
 **Total: 162+ CVEs identified across all dependencies**
 
@@ -306,30 +306,54 @@ These vulnerabilities exist because the project uses Spring Boot 2.2.4.RELEASE (
 
 ### Areas of Security Addressed
 
-The following areas were addressed in this project:
+I addressed the following security areas from the vulnerability assessment process flow:
 
-- **Cryptography:** Added SHA-256 hashing using Java's `MessageDigest` class to generate checksums for data verification.
-- **Secure Communications:** Configured HTTPS by enabling SSL in Spring Boot's `application.properties` with a self-signed certificate.
-- **Dependency Scanning:** Ran OWASP Dependency-Check to identify known vulnerabilities in project dependencies.
+- **Cryptography:** Added a /hash endpoint in ServerApplication.java that computes SHA-256 checksums using Java's MessageDigest class. I documented this decision in ADR-0001.
+
+- **Secure Communications:** Converted the application from HTTP to HTTPS by generating a self-signed certificate with Java Keytool and configuring SSL in application.properties. The certificate uses RSA 2048-bit keys stored in PKCS12 format. I documented the TLS decision in ADR-0004 and the keystore format in ADR-0003.
+
+- **Static Analysis:** Configured OWASP Dependency-Check in pom.xml and ran it to scan for CVEs. The scan found 162+ vulnerabilities in the outdated Spring Boot 2.2.4 dependencies, including critical ones like Spring4Shell (CVE-2022-22965) and Ghostcat (CVE-2020-1938).
+
+- **CI/CD Security:** Set up a GitHub Actions workflow (.github/workflows/security-scan.yml) that automatically runs OWASP Dependency-Check on every push and pull request. This is documented in ADR-0006.
 
 ### Process for Adding Security Layers
 
-1. **Generated a self-signed certificate** using Java Keytool and stored it in PKCS12 format.
-2. **Configured HTTPS** in `application.properties` by setting the port to 8443 and pointing to the keystore.
-3. **Added a `/hash` endpoint** in `ServerApplication.java` that computes and displays a SHA-256 checksum.
-4. **Ran OWASP Dependency-Check** to scan for CVEs in third-party libraries.
+1. Generated a self-signed certificate using keytool with RSA 2048-bit encryption and stored it as keystore.p12 in PKCS12 format.
+
+2. Configured application.properties with the keystore path, password, and port 8443 to enable HTTPS.
+
+3. Added a ServerController class with a /hash endpoint that takes a data string, runs it through SHA-256, and returns the hex-encoded checksum.
+
+4. Added the OWASP Dependency-Check Maven plugin to pom.xml and ran ./mvnw dependency-check:check to scan for vulnerabilities.
+
+5. Created a GitHub Actions workflow that runs the build, tests, and dependency-check automatically on every commit.
+
+6. Documented all major decisions in Architecture Decision Records (ADRs) for traceability.
+
+7. Performed a manual security review and documented 15 findings in doc/reports/security-review.md, categorized by severity (4 Critical, 4 High, 4 Medium, 3 Low).
 
 ### Industry Standard Best Practices Applied
 
-- **SHA-256:** Used for hashing as recommended by NIST.
-- **PKCS12 Keystore:** Industry-standard format for storing certificates.
-- **HTTPS:** Encrypts data between client and server.
-- **Dependency Scanning:** Identifies known vulnerabilities in libraries.
+- **SHA-256 for hashing:** I researched the Oracle Java Security Standard Algorithm Names document and found SHA-256 in the MessageDigest Algorithms section. It's NIST-approved and I chose it over MD5 or SHA-1 because those have known collision vulnerabilities.
+
+- **PKCS12 keystore format:** This is the default format for Java 9+ and is more portable than the older JKS format.
+
+- **HTTPS on port 8443:** Standard port for HTTPS in development. All data between client and server is encrypted with TLS.
+
+- **OWASP Dependency-Check:** Industry standard tool for finding known CVEs in dependencies. I verified the CVEs it found against the NVD database.
+
+- **Architecture Decision Records:** Used ADRs to document why I chose SHA-256, AES/GCM, PKCS12, TLS, and GitHub Actions. This creates a paper trail for future developers.
 
 ### Value to Company Well-Being
 
 For Artemis Financial, these practices provide:
 
-- **Data Protection:** HTTPS encrypts client financial data in transit.
-- **Integrity Verification:** SHA-256 checksums can detect if data has been modified.
-- **Vulnerability Awareness:** Dependency scanning identifies security risks in third-party code before deployment.
+- **Data Protection:** HTTPS encrypts all client financial data in transit. Without it, anyone on the network could read the traffic.
+
+- **Integrity Verification:** SHA-256 checksums let the application verify that data has not been modified. If someone tampers with the data, the checksum will not match.
+
+- **Vulnerability Awareness:** Running OWASP Dependency-Check found 162+ CVEs in the dependencies. Now Artemis knows exactly what needs to be upgraded before going to production.
+
+- **Automated Security Scanning:** The GitHub Actions workflow runs security scans on every commit, so new vulnerabilities get caught early instead of making it to production.
+
+- **Documentation:** The ADRs and security review give Artemis a clear record of what security decisions were made and why, which helps with audits and onboarding new developers.

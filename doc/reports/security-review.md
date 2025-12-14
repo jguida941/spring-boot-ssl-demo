@@ -13,10 +13,10 @@ This security review identified **15 findings** across the codebase. The applica
 
 | Severity | Count |
 |----------|-------|
-| Critical | 4 |
-| High | 4 |
-| Medium | 4 |
-| Low | 3 |
+| Critical | 4     |
+| High     | 4     |
+| Medium   | 4     |
+| Low      | 3     |
 
 ---
 
@@ -267,20 +267,51 @@ public String myHash() throws NoSuchAlgorithmException {
 
 ---
 
-## Dependency Vulnerabilities
+## Dependency Vulnerabilities (Verified)
 
-OWASP Dependency-Check identified vulnerabilities in these libraries:
+OWASP Dependency-Check identified vulnerabilities in these libraries. Each CVE has been verified against the [NVD database](https://nvd.nist.gov/) and vendor security advisories.
 
-| Dependency | CVE Count | Highest Severity |
-|------------|-----------|------------------|
-| tomcat-embed-core-9.0.30 | 40+ | Critical |
-| spring-core-5.2.3.RELEASE | 10 | Critical |
-| jackson-databind-2.10.2 | 6 | High |
-| snakeyaml-1.25 | 7 | High |
-| logback-core-1.2.3 | 2 | High |
-| hibernate-validator-6.0.18 | 3 | Medium |
+| Dependency                 | CVE Count | Highest Severity |
+|----------------------------|-----------|------------------|
+| tomcat-embed-core-9.0.30   | 40+       | Critical         |
+| spring-core-5.2.3.RELEASE  | 10        | Critical         |
+| jackson-databind-2.10.2    | 6         | High             |
+| snakeyaml-1.25             | 7         | High             |
+| logback-core-1.2.3         | 2         | High             |
+| hibernate-validator-6.0.18 | 3         | Medium           |
+
+### Critical CVEs Verified
+
+| CVE                                                               | Library           | CVSS | Description                                 | Fixed In                |
+|-------------------------------------------------------------------|-------------------|------|---------------------------------------------|-------------------------|
+| [CVE-2022-22965](https://nvd.nist.gov/vuln/detail/cve-2022-22965) | spring-core-5.2.3 | 9.8  | Spring4Shell RCE via data binding on JDK 9+ | Spring 5.2.20+, 5.3.18+ |
+| [CVE-2020-1938](https://nvd.nist.gov/vuln/detail/cve-2020-1938)   | tomcat-9.0.30     | 9.8  | Ghostcat AJP file read/inclusion            | Tomcat 9.0.31+          |
+| [CVE-2025-24813](https://nvd.nist.gov/vuln/detail/cve-2025-24813) | tomcat-9.0.30     | 9.8  | RCE via partial PUT and session persistence | Tomcat 9.0.99+          |
+| [CVE-2024-50379](https://tomcat.apache.org/security-9.html)       | tomcat-9.0.30     | 9.8  | RCE via case-insensitive file upload bypass | Tomcat 9.0.99+          |
+
+### High CVEs Verified
+
+| CVE                                                               | Library                 | CVSS | Description                       | Fixed In          |
+|-------------------------------------------------------------------|-------------------------|------|-----------------------------------|-------------------|
+| [CVE-2022-1471](https://nvd.nist.gov/vuln/detail/cve-2022-1471)   | snakeyaml-1.25          | 8.3  | RCE via unsafe deserialization    | SnakeYAML 2.0+    |
+| [CVE-2021-42550](https://nvd.nist.gov/vuln/detail/CVE-2021-42550) | logback-1.2.3           | 6.6  | RCE via JNDI in configuration     | Logback 1.2.8+    |
+| [CVE-2020-36518](https://nvd.nist.gov/vuln/detail/CVE-2020-36518) | jackson-databind-2.10.2 | 7.5  | DoS via deeply nested JSON        | Jackson 2.12.6.1+ |
+| [CVE-2020-25649](https://nvd.nist.gov/vuln/detail/CVE-2020-25649) | jackson-databind-2.10.2 | 7.5  | XXE via insecure entity expansion | Jackson 2.10.5.1+ |
+
+### Low CVEs Verified
+
+| CVE                                                             | Library          | CVSS | Description                            | Fixed In      |
+|-----------------------------------------------------------------|------------------|------|----------------------------------------|---------------|
+| [CVE-2020-9488](https://nvd.nist.gov/vuln/detail/CVE-2020-9488) | log4j-api-2.12.1 | 3.7  | MITM via improper SMTP cert validation | Log4j 2.12.3+ |
 
 Full report: `target/dependency-check-report.html`
+
+### Sources
+
+- [Spring Security Advisories](https://spring.io/security/)
+- [Apache Tomcat Security](https://tomcat.apache.org/security-9.html)
+- [NVD - National Vulnerability Database](https://nvd.nist.gov/)
+- [CISA KEV Catalog](https://www.cisa.gov/known-exploited-vulnerabilities-catalog)
 
 ---
 

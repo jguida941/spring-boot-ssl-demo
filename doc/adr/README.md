@@ -13,14 +13,14 @@ An Architectural Decision Record (ADR) captures a single architectural decision 
 
 ## ADR Index
 
-| ADR | Title | Status | Date |
-|-----|-------|--------|------|
-| [0001](0001-use-sha256-for-checksum.md) | Use SHA-256 for Checksum Verification | Accepted | 2025-12-13 |
-| [0002](0002-use-aes-gcm-cipher.md) | Use AES/GCM/NoPadding for Encryption | Accepted | 2025-12-13 |
-| [0003](0003-use-pkcs12-keystore.md) | Use PKCS12 Keystore Format | Accepted | 2025-12-13 |
-| [0004](0004-use-tls-https.md) | Use TLS 1.3/1.2 for HTTPS Communications | Accepted | 2025-12-13 |
+| ADR                                                    | Title                                    | Status   | Date       |
+|--------------------------------------------------------|------------------------------------------|----------|------------|
+| [0001](0001-use-sha256-for-checksum.md)                | Use SHA-256 for Checksum Verification    | Accepted | 2025-12-13 |
+| [0002](0002-use-aes-gcm-cipher.md)                     | Use AES/GCM/NoPadding for Encryption     | Accepted | 2025-12-13 |
+| [0003](0003-use-pkcs12-keystore.md)                    | Use PKCS12 Keystore Format               | Accepted | 2025-12-13 |
+| [0004](0004-use-tls-https.md)                          | Use TLS 1.3/1.2 for HTTPS Communications | Accepted | 2025-12-13 |
 | [0005](0005-known-limitations-not-production-ready.md) | Known Limitations - Not Production Ready | Accepted | 2025-12-14 |
-| [0006](0006-use-github-actions-cicd.md) | Use GitHub Actions for CI/CD | Accepted | 2025-12-14 |
+| [0006](0006-use-github-actions-cicd.md)                | Use GitHub Actions for CI/CD             | Accepted | 2025-12-14 |
 
 ## ADR Template
 

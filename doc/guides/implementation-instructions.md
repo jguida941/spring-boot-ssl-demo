@@ -495,7 +495,6 @@ $hash = [System.Security.Cryptography.SHA256]::Create().ComputeHash($bytes)
 
 ## File Structure After Implementation
 
-Your project should look like this:
 
 ```
 ssl-server_student/
@@ -528,7 +527,8 @@ ssl-server_student/
 │   │   └── quickstart.md
 │   ├── images/                         <-- Screenshots
 │   ├── reports/
-│   │   └── secure-software-report.md
+│   │   ├── secure-software-report.md
+│   │   └── security-review.md
 │   └── requirements/
 │       ├── requirements.md
 │       └── roadmap.md
